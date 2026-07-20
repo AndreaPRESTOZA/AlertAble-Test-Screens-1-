@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AlertAble — Sample Screens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --umber:#5E1D16;
+    --redwood:#A6272C;
+    --macadamia:#F3E1BE;
+    --macadamia-soft:#FAF1DD;
+    --coolblue:#123049;
+    --coolblue-2:#1B4566;
+    --grayish:#7FA0AF;
+    --ink:#1B1410;
+    --paper:#FBF8F2;
+    --line: rgba(18,48,73,0.12);
+    --display: 'Sora', sans-serif;
+    --body: 'Inter', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);font-family:var(--body);color:var(--ink);padding-bottom:80px;}
+
+  .dots{position:absolute;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .dots span{width:4px;height:4px;border-radius:50%;background:currentColor;display:block;}
+
+  header{background:var(--coolblue);color:var(--macadamia-soft);padding:48px 6vw 40px;position:relative;overflow:hidden;}
+  header .dots{top:28px;right:6vw;color:var(--redwood);opacity:.9;}
+  .brand-row{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
+  .mark{width:34px;height:34px;flex:none;}
+  .brand-name{font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:.2px;}
+  .brand-name b{color:var(--redwood);}
+  header h1{font-family:var(--display);font-weight:700;font-size:clamp(28px,4vw,44px);line-height:1.08;max-width:780px;margin:0 0 14px;}
+  header p{max-width:560px;color:var(--grayish);font-size:15px;line-height:1.6;margin:0;}
+  header .tagline{display:inline-block;margin-top:22px;font-family:var(--display);font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--macadamia);border-top:1px solid rgba(243,225,190,0.25);padding-top:14px;}
+
+  .tabbar{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:1px solid var(--line);display:flex;gap:0;padding:0 6vw;overflow-x:auto;}
+  .tabbar button{font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.02em;background:none;border:none;padding:18px 20px;color:var(--coolblue-2);opacity:.5;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:8px;}
+  .tabbar button .idx{font-size:11px;color:var(--redwood);opacity:1;}
+  .tabbar button.active{opacity:1;border-bottom-color:var(--redwood);}
+
+  section.persona{padding:44px 6vw 20px;display:none;}
+  section.persona.active{display:block;}
+  .persona-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:26px;}
+  .persona-head h2{font-family:var(--display);font-size:26px;font-weight:700;margin:0 0 6px;color:var(--coolblue);}
+  .persona-head p{margin:0;max-width:560px;font-size:14px;color:#4B5A63;line-height:1.55;}
+  .persona-chip{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:7px 12px;border-radius:100px;background:var(--macadamia);color:var(--umber);flex:none;}
+
+  .group-label{font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--redwood);margin:30px 0 12px;padding-top:10px;border-top:1px dashed var(--line);}
+  .group-label:first-of-type{border-top:none;margin-top:0;}
+
+  .flow{display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding-bottom:30px;scroll-snap-type:x proximity;}
+  .step{flex:none;width:252px;scroll-snap-align:start;}
+  .step + .step{margin-left:4px;}
+  .connector{flex:none;width:26px;display:flex;align-items:center;justify-content:center;height:560px;color:var(--grayish);margin-top:52px;}
+  .step-label{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .step-num{width:20px;height:20px;border-radius:50%;background:var(--coolblue);color:var(--macadamia-soft);font-family:var(--display);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none;}
+  .step-title{font-family:var(--display);font-size:12.5px;font-weight:700;color:var(--coolblue);}
+  .step-caption{font-size:11.5px;color:#5C6B73;margin:0 0 12px 28px;line-height:1.5;min-height:44px;}
+
+  .phone{width:252px;height:540px;background:var(--ink);border-radius:32px;padding:9px;box-shadow:0 18px 34px -14px rgba(18,48,73,0.35);}
+  .screen{width:100%;height:100%;background:var(--paper);border-radius:24px;overflow:hidden;position:relative;display:flex;flex-direction:column;font-size:11px;}
+  .statusbar{display:flex;justify-content:space-between;padding:9px 15px 2px;font-family:var(--body);font-size:9.5px;font-weight:600;color:var(--coolblue);}
+  .screen-body{flex:1;padding:11px 13px 13px;overflow:hidden;display:flex;flex-direction:column;gap:8px;}
+  .screen-body.dark{background:var(--coolblue);color:var(--macadamia-soft);}
+  .screen-body.redalert{background:var(--umber);color:var(--macadamia-soft);}
+
+  .app-top{display:flex;align-items:center;gap:8px;}
+  .app-top .mark{width:17px;height:17px;}
+  .app-top span{font-family:var(--display);font-weight:800;font-size:12.5px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:10px;}
+  .card.tinted{background:var(--macadamia-soft);border-color:rgba(94,29,22,0.1);}
+  .card h4{margin:0 0 4px;font-family:var(--display);font-size:11.5px;font-weight:700;color:var(--coolblue);}
+  .card p{margin:0;font-size:10px;line-height:1.42;color:#4B5A63;}
+  .row{display:flex;gap:8px;}
+  .pill{font-family:var(--display);font-size:8.5px;font-weight:700;letter-spacing:.03em;padding:4px 8px;border-radius:100px;background:var(--macadamia);color:var(--umber);display:inline-flex;align-items:center;gap:4px;}
+  .pill.blue{background:var(--coolblue);color:var(--macadamia-soft);}
+  .pill.red{background:var(--redwood);color:#fff;}
+  .pill.outline{background:transparent;border:1px solid var(--grayish);color:var(--coolblue);}
+  .btn{font-family:var(--display);font-weight:700;font-size:10.5px;text-align:center;padding:10px;border-radius:11px;background:var(--coolblue);color:#fff;border:none;}
+  .btn.red{background:var(--redwood);}
+  .btn.ghost{background:transparent;border:1.4px solid rgba(255,255,255,.4);color:inherit;}
+  .btn.outline{background:#fff;border:1.4px solid var(--coolblue);color:var(--coolblue);}
+  .field{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 9px;font-size:10px;color:#4B5A63;}
+  .field label{display:block;font-family:var(--display);font-size:8.5px;font-weight:700;color:var(--coolblue);margin-bottom:2px;letter-spacing:.03em;text-transform:uppercase;}
+  .divider{height:1px;background:var(--line);margin:1px 0;}
+  .avatar{width:28px;height:28px;border-radius:50%;background:var(--coolblue-2);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:10px;flex:none;}
+  .avatar.red{background:var(--redwood);}
+  .progress{height:5px;border-radius:100px;background:var(--line);overflow:hidden;}
+  .progress i{display:block;height:100%;background:var(--redwood);}
+  .mapbox{flex:1;min-height:100px;border-radius:12px;position:relative;overflow:hidden;background:repeating-linear-gradient(0deg, rgba(18,48,73,.06) 0 1px, transparent 1px 22px),repeating-linear-gradient(90deg, rgba(18,48,73,.06) 0 1px, transparent 1px 22px),var(--macadamia-soft);}
+  .mapbox .route{position:absolute;left:18%;top:14%;width:64%;height:70%;border:2.4px dashed var(--redwood);border-radius:40% 60% 55% 45%/50% 40% 60% 50%;border-top:none;border-right:none;}
+  .mapbox .pin{position:absolute;width:15px;height:15px;border-radius:50% 50% 50% 0;background:var(--redwood);transform:rotate(-45deg);box-shadow:0 0 0 4px rgba(166,39,44,.18);}
+  .mapbox .pin.blue{background:var(--coolblue);box-shadow:0 0 0 4px rgba(18,48,73,.16);}
+  .mapbox .flag{position:absolute;font-size:7.5px;font-family:var(--display);font-weight:700;color:var(--coolblue);background:#fff;padding:2px 5px;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,.12);}
+  .list-item{display:flex;gap:7px;align-items:flex-start;padding:6px 0;}
+  .list-item + .list-item{border-top:1px solid var(--line);}
+  .sos-btn{width:100px;height:100px;border-radius:50%;background:var(--redwood);display:flex;align-items:center;justify-content:center;margin:6px auto 2px;font-family:var(--display);font-weight:800;font-size:15px;color:#fff;box-shadow:0 0 0 9px rgba(166,39,44,.14), 0 0 0 18px rgba(166,39,44,.07);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+  .tag-row{display:flex;flex-wrap:wrap;gap:5px;}
+  .footer-note{text-align:center;font-size:9px;color:var(--grayish);padding-top:4px;}
+  .toggle{width:30px;height:16px;border-radius:100px;background:var(--coolblue);position:relative;flex:none;}
+  .toggle i{position:absolute;top:2px;right:2px;width:12px;height:12px;border-radius:50%;background:#fff;}
+  .toggle.off{background:var(--line);}
+  .toggle.off i{left:2px;right:auto;}
+  .chev{color:var(--grayish);}
+
+  footer{padding:40px 6vw 10px;text-align:center;}
+  footer p{font-family:var(--display);font-size:11px;color:var(--grayish);letter-spacing:.04em;}
+
+  @media (max-width:640px){.connector{height:540px;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="dots"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="brand-row">
+    <svg class="mark" viewBox="0 0 40 40"><polygon points="20,4 34,32 6,32" fill="#F3E1BE"/><polygon points="20,4 34,32 20,32" fill="#A6272C"/><polygon points="12,32 28,32 20,20" fill="#5E1D16"/></svg>
+    <div class="brand-name">Alert<b>Able</b></div>
+  </div>
+  <h1>Sample screens — Evacuee, Caregiver &amp; Responder</h1>
+  <p>An expanded look across all six modules — profile &amp; preparedness, adaptive alerting, accessible evacuation, telemetry &amp; monitoring, emergency assistance, and responder support — built around the cool blue / macadamia / burnt umber moodboard.</p>
+  <div class="tagline">“Safety made accessible.”</div>
+</header>
+
+<nav class="tabbar">
+  <button class="active" data-tab="evacuee"><span class="idx">01</span> Mobility-Impaired Evacuee</button>
+  <button data-tab="caregiver"><span class="idx">02</span> Caregiver</button>
+  <button data-tab="responder"><span class="idx">03</span> First Responder</button>
+</nav>
+
+<!-- ============ EVACUEE ============ -->
+<section class="persona active" id="evacuee">
+  <div class="persona-head">
+    <div><h2>Evacuee flow</h2><p>From account setup and mobility profiling, through an active disaster, to requesting help and confirming safe arrival.</p></div>
+    <span class="persona-chip">13 screens</span>
+  </div>
+
+  <div class="group-label">Module 1 — Mobility Profile &amp; Preparedness Management</div>
+  <div class="flow">
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">1</span><span class="step-title">Sign up / Log in</span></div>
+      <p class="step-caption">Account creation requires an initial internet session, before a disaster strikes.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:41</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body" style="align-items:center;text-align:center;justify-content:center">
+          <svg class="mark" viewBox="0 0 40 40" style="width:44px;height:44px;margin:0 auto"><polygon points="20,4 34,32 6,32" fill="#F3E1BE"/><polygon points="20,4 34,32 20,32" fill="#A6272C"/><polygon points="12,32 28,32 20,20" fill="#5E1D16"/></svg>
+          <div style="font-family:var(--display);font-weight:800;font-size:16px;color:var(--coolblue)">Alert<span style="color:var(--redwood)">Able</span></div>
+          <p style="color:#4B5A63">Safety made accessible.</p>
+          <div class="field" style="width:100%;text-align:left"><label>Email</label>you@email.com</div>
+          <div class="field" style="width:100%;text-align:left"><label>Password</label>••••••••</div>
+          <button class="btn" style="width:100%">Log in</button>
+          <button class="btn outline" style="width:100%">Create account</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">2</span><span class="step-title">Mobility Profile</span></div>
+      <p class="step-caption">Functional limitation and aid on hand — the base of every personalized alert later on.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:42</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body">
+          <div class="app-top" style="color:var(--coolblue)">← <span>Mobility profile</span></div>
+          <div class="field"><label>Mobility type</label>Manual wheelchair user</div>
+          <div class="field"><label>Mobility aid on hand</label>Foldable wheelchair, transfer board</div>
+          <div class="field"><label>Assistance preference</label>Needs 1 assistant to transfer</div>
+          <div class="tag-row"><span class="pill outline">Steps: avoid</span><span class="pill outline">Ramps: required</span></div>
+          <div style="flex:1"></div>
+          <button class="btn">Continue</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">3</span><span class="step-title">Medical Equipment &amp; Contacts</span></div>
+      <p class="step-caption">Equipment dependencies and emergency contacts responders may need on arrival.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:43</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body">
+          <div class="app-top" style="color:var(--coolblue)">← <span>Medical &amp; contacts</span></div>
+          <div class="field"><label>Medical equipment</label>None currently</div>
+          <div class="field"><label>Medications</label>Maintenance meds, 7-day supply packed</div>
+          <div class="divider"></div>
+          <div class="list-item"><div class="avatar">MR</div><div><h4 style="margin:0;font-size:11px">Maya R.</h4><p>Sister · primary contact</p></div></div>
+          <div class="list-item"><div class="avatar">JD</div><div><h4 style="margin:0;font-size:11px">Dr. Santos</h4><p>Physician</p></div></div>
+          <div style="flex:1"></div>
+          <button class="btn outline">+ Add contact</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">4</span><span class="step-title">Link a Caregiver</span></div>
+      <p class="step-caption">Linking implies consent to share monitoring &amp; location data with that person.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:44</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body" style="align-items:center;text-align:center">
+          <h4 style="color:var(--coolblue)">Link your caregiver</h4>
+          <div class="card tinted" style="width:100%">
+            <p style="font-size:22px;font-weight:800;letter-spacing:.1em;color:var(--umber);font-family:var(--display)">7C-92XQ</p>
+            <p>Share this code with your caregiver's app</p>
+          </div>
+          <div class="list-item" style="width:100%;text-align:left"><div class="avatar">MR</div><div><h4 style="margin:0;font-size:11px">Maya R.</h4><p>Linked ✓ · can view status &amp; location</p></div></div>
+          <div style="flex:1"></div>
+          <button class="btn">Done</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">5</span><span class="step-title">Accessibility Settings</span></div>
+      <p class="step-caption">Notification method, text size, and voice assistance tuned to the user's needs.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:45</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body">
+          <div class="app-top" style="color:var(--coolblue)">← <span>Accessibility</span></div>
+          <div class="row" style="justify-content:space-between;align-items:center"><span style="font-size:10.5px">High-intensity vibration</span><div class="toggle"><i></i></div></div>
+          <div class="row" style="justify-content:space-between;align-items:center"><span style="font-size:10.5px">Flash + strobe alert</span><div class="toggle"><i></i></div></div>
+          <div class="row" style="justify-content:space-between;align-items:center"><span style="font-size:10.5px">Voice-guided navigation</span><div class="toggle off"><i></i></div></div>
+          <div class="row" style="justify-content:space-between;align-items:center"><span style="font-size:10.5px">Large text</span><div class="toggle"><i></i></div></div>
+          <div class="row" style="justify-content:space-between;align-items:center"><span style="font-size:10.5px">Bypass silent / DND mode</span><div class="toggle"><i></i></div></div>
+          <div style="flex:1"></div>
+          <button class="btn">Save settings</button>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+
+  <div class="group-label">Module 2–5 — Alerting, Evacuation, Telemetry &amp; Assistance</div>
+  <div class="flow">
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">6</span><span class="step-title">Home / Preparedness</span></div>
+      <p class="step-caption">No active hazard — daily-use screen with kit checklist and drill reminders.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>8:10</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body">
+          <div class="app-top"><svg class="mark" viewBox="0 0 40 40"><polygon points="20,4 34,32 6,32" fill="#F3E1BE"/><polygon points="20,4 34,32 20,32" fill="#A6272C"/><polygon points="12,32 28,32 20,20" fill="#5E1D16"/></svg><span style="color:var(--coolblue)">All clear today</span></div>
+          <div class="card tinted"><h4>Preparedness kit</h4><p>7 of 9 items packed. Add flashlight, spare cushion.</p><div class="progress"><i style="width:78%"></i></div></div>
+          <div class="grid2">
+            <div class="card"><h4>Nearest shelter</h4><p>Brgy. Hall · 380m</p></div>
+            <div class="card"><h4>Caregiver</h4><p>Maya R. · linked</p></div>
+          </div>
+          <div style="flex:1"></div>
+          <button class="btn outline">View accessible map</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">7</span><span class="step-title">Adaptive Emergency Alert</span></div>
+      <p class="step-caption">Multi-modal, persistent alert with a mobility-aware prep buffer.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar" style="color:var(--macadamia-soft)"><span>9:44</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body redalert">
+          <div class="row" style="align-items:center;justify-content:space-between"><span class="pill red">⚠ PHIVOLCS · Earthquake</span><span style="font-family:var(--display);font-weight:700;font-size:11px">Int. VI</span></div>
+          <div class="card" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18)"><h4 style="color:#fff">Prepare to evacuate</h4><p style="color:var(--macadamia)">Based on your profile you have an extended buffer to secure your wheelchair and reach your caregiver.</p></div>
+          <div class="grid2"><div class="card tinted"><h4>Buffer</h4><p style="font-size:15px;font-weight:800;color:var(--umber)">05:42</p></div><div class="card tinted"><h4>Caregiver</h4><p>Notified ✓</p></div></div>
+          <div style="flex:1"></div>
+          <button class="btn" style="background:#fff;color:var(--umber)">View accessible route</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">8</span><span class="step-title">Accessible Evacuation Route</span></div>
+      <p class="step-caption">Route filters out stairs, curbs &amp; flooded roads automatically.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:45</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body">
+          <div class="row" style="justify-content:space-between;align-items:center"><span style="font-family:var(--display);font-weight:700;color:var(--coolblue);font-size:11.5px">Route to shelter</span><span class="pill blue">Wheelchair-safe</span></div>
+          <div class="mapbox"><div class="route"></div><div class="pin blue" style="left:20%;top:18%"></div><div class="pin" style="left:70%;top:74%"></div><div class="flag" style="left:32%;top:52%">Ramp ✓</div><div class="flag" style="left:58%;top:26%">Flood — avoided</div></div>
+          <button class="btn">Start guidance</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">9</span><span class="step-title">Turn-by-turn Guidance</span></div>
+      <p class="step-caption">Step-level instructions, updated live if a path becomes blocked.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:46</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body">
+          <div class="mapbox" style="min-height:150px"><div class="route"></div><div class="pin blue" style="left:46%;top:40%"></div></div>
+          <div class="card tinted"><h4>Next: 80m</h4><p>Turn right at Rizal St. and use the barangay ramp.</p></div>
+          <div class="list-item"><span class="pill outline">✓</span><p style="font-size:10px">Home → Rizal St.</p></div>
+          <div class="list-item"><span class="pill">2</span><p style="font-size:10px">Rizal St. ramp → Shelter gate</p></div>
+          <button class="btn outline">Mute voice guidance</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">10</span><span class="step-title">Accessible Shelter Details</span></div>
+      <p class="step-caption">Confirms the destination is actually usable before the user commits to it.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:47</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body">
+          <div class="app-top" style="color:var(--coolblue)">← <span>Brgy. Hall Shelter</span></div>
+          <div class="card tinted"><h4>Accessibility</h4><p>Step-free entrance, accessible restroom, ground-floor sleeping area reserved for PWDs.</p></div>
+          <div class="grid2"><div class="card"><h4>Capacity</h4><p>62 / 120</p></div><div class="card"><h4>Distance</h4><p>380 m</p></div></div>
+          <div class="card"><h4>Verified by</h4><p>Mandaue DRRM Office</p></div>
+          <button class="btn">Set as destination</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">11</span><span class="step-title">Evacuation Telemetry</span></div>
+      <p class="step-caption">Continuous status &amp; location shared with the caregiver as the user moves.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:49</span><span>●●○ Mesh</span></div>
+        <div class="screen-body">
+          <div class="row" style="justify-content:space-between;align-items:center"><span style="font-family:var(--display);font-weight:700;color:var(--coolblue);font-size:11.5px">Sharing live status</span><span class="pill">In transit</span></div>
+          <div class="progress"><i style="width:58%"></i></div>
+          <div class="grid2"><div class="card tinted"><h4>ETA</h4><p style="font-weight:700;color:var(--umber)">4 min</p></div><div class="card tinted"><h4>Battery</h4><p>61%</p></div></div>
+          <div class="card"><h4>Update status</h4><div class="tag-row"><span class="pill blue">Moving</span><span class="pill outline">Paused</span><span class="pill outline">Stuck</span></div></div>
+          <button class="btn outline">Notify caregiver I'm ok</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">12</span><span class="step-title">Emergency Assistance / SOS</span></div>
+      <p class="step-caption">One tap sends location + mobility profile to caregiver &amp; nearest responder.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:52</span><span>●●○ Mesh</span></div>
+        <div class="screen-body" style="align-items:center;text-align:center">
+          <span class="pill red" style="align-self:center">SOS sent</span>
+          <div class="sos-btn">SOS</div>
+          <p style="font-size:10px;color:#4B5A63">Location &amp; mobility profile shared over the offline mesh network.</p>
+          <div class="card tinted" style="width:100%;text-align:left">
+            <div class="list-item"><span class="pill outline">✓</span><p>Caregiver notified</p></div>
+            <div class="list-item"><span class="pill outline">✓</span><p>Nearest responder relayed</p></div>
+            <div class="list-item"><span class="pill">…</span><p>Awaiting ETA</p></div>
+          </div>
+          <button class="btn outline" style="width:100%">Cancel request</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">13</span><span class="step-title">Offline Mesh Status</span></div>
+      <p class="step-caption">Shown when cell towers are down — what still works without internet.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:53</span><span style="color:var(--redwood)">No signal</span></div>
+        <div class="screen-body">
+          <div class="card tinted"><h4>You're offline</h4><p>Relaying through 3 nearby devices via Bluetooth / Wi-Fi Direct.</p></div>
+          <div class="list-item"><span class="pill blue">✓</span><p style="font-size:10px">Own profile — available locally</p></div>
+          <div class="list-item"><span class="pill blue">✓</span><p style="font-size:10px">SOS &amp; status — relaying via mesh</p></div>
+          <div class="list-item"><span class="pill outline">✓</span><p style="font-size:10px">Cached map area — viewable</p></div>
+          <div class="list-item"><span class="pill red">✕</span><p style="font-size:10px">New hazard feed — needs internet</p></div>
+          <div style="flex:1"></div>
+          <p class="footer-note">Data will sync once any device in the chain regains connectivity</p>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ CAREGIVER ============ -->
+<section class="persona" id="caregiver">
+  <div class="persona-head">
+    <div><h2>Caregiver flow</h2><p>Set up, linked monitoring, mirrored alerts, and the ability to escalate on the evacuee's behalf.</p></div>
+    <span class="persona-chip">11 screens</span>
+  </div>
+
+  <div class="group-label">Setup &amp; everyday monitoring</div>
+  <div class="flow">
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">1</span><span class="step-title">Log in</span></div>
+      <p class="step-caption">Same AlertAble app, caregiver role selected at account creation.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:40</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body" style="align-items:center;text-align:center;justify-content:center">
+          <svg class="mark" viewBox="0 0 40 40" style="width:44px;height:44px;margin:0 auto"><polygon points="20,4 34,32 6,32" fill="#F3E1BE"/><polygon points="20,4 34,32 20,32" fill="#A6272C"/><polygon points="12,32 28,32 20,20" fill="#5E1D16"/></svg>
+          <div style="font-family:var(--display);font-weight:800;font-size:15px;color:var(--coolblue)">Caregiver login</div>
+          <div class="field" style="width:100%;text-align:left"><label>Email</label>maya@email.com</div>
+          <div class="field" style="width:100%;text-align:left"><label>Password</label>••••••••</div>
+          <button class="btn" style="width:100%">Log in</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">2</span><span class="step-title">Link an Evacuee</span></div>
+      <p class="step-caption">Enter the code the evacuee generated to establish monitoring consent.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:41</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body" style="align-items:center;text-align:center">
+          <h4 style="color:var(--coolblue)">Enter link code</h4>
+          <div class="field" style="width:100%;text-align:center;font-size:16px;letter-spacing:.15em;font-family:var(--display)">7C-92XQ</div>
+          <p style="font-size:10px;color:#4B5A63">You'll be able to view Jun's profile, alerts, and live status once linked.</p>
+          <div style="flex:1"></div>
+          <button class="btn" style="width:100%">Link account</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">3</span><span class="step-title">Circle Dashboard</span></div>
+      <p class="step-caption">Overview of every evacuee linked to this caregiver account.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:42</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body">
+          <div class="app-top"><svg class="mark" viewBox="0 0 40 40"><polygon points="20,4 34,32 6,32" fill="#F3E1BE"/><polygon points="20,4 34,32 20,32" fill="#A6272C"/><polygon points="12,32 28,32 20,20" fill="#5E1D16"/></svg><span style="color:var(--coolblue)">Your circle</span></div>
+          <div class="card"><div class="row" style="align-items:center;justify-content:space-between"><div class="row" style="align-items:center;gap:8px"><div class="avatar">JC</div><div><h4 style="margin:0">Jun Cruz</h4><p>Wheelchair user</p></div></div><span class="pill blue">Safe</span></div></div>
+          <div class="card"><div class="row" style="align-items:center;justify-content:space-between"><div class="row" style="align-items:center;gap:8px"><div class="avatar">LT</div><div><h4 style="margin:0">Lola Tere</h4><p>Bedridden · O2 dependent</p></div></div><span class="pill outline">Idle</span></div></div>
+          <div style="flex:1"></div>
+          <button class="btn outline">+ Link another evacuee</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">4</span><span class="step-title">Evacuee Profile View</span></div>
+      <p class="step-caption">Read access to the linked evacuee's mobility &amp; preparedness data.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:43</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body">
+          <div class="app-top" style="color:var(--coolblue)">← <span>Jun Cruz</span></div>
+          <div class="card tinted"><h4>Mobility</h4><p>Manual wheelchair, needs 1 assistant to transfer</p></div>
+          <div class="card"><h4>Medical</h4><p>No equipment dependency</p></div>
+          <div class="card"><h4>Kit status</h4><p>7 of 9 items packed</p></div>
+          <div style="flex:1"></div>
+          <button class="btn outline">Message Jun</button>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+
+  <div class="group-label">During an active disaster</div>
+  <div class="flow">
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">5</span><span class="step-title">Alert Mirrored</span></div>
+      <p class="step-caption">Caregiver receives the same hazard alert, scoped to their linked evacuees.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar" style="color:var(--macadamia-soft)"><span>9:44</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body dark">
+          <span class="pill red">⚠ Earthquake · Int. VI</span>
+          <div class="card" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16)"><h4 style="color:#fff">Jun Cruz — action needed</h4><p style="color:var(--grayish)">Buffer window active. Jun has not opened the app yet.</p></div>
+          <button class="btn red">Start evacuation for Jun</button>
+          <div class="divider" style="background:rgba(255,255,255,.14)"></div>
+          <div class="card" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16)"><h4 style="color:#fff">Lola Tere</h4><p style="color:var(--grayish)">Marked safe · sheltering in place</p></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">6</span><span class="step-title">Start Evacuation on Behalf</span></div>
+      <p class="step-caption">Used when the evacuee can't act — sets their route in motion remotely.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:44</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body">
+          <div class="card tinted"><h4>Confirm on behalf of Jun</h4><p>This will start route guidance and notify Jun's device.</p></div>
+          <div class="field"><label>Destination</label>Brgy. Hall Shelter (accessible)</div>
+          <div class="field"><label>Note to responder</label>Needs 1 assistant to transfer</div>
+          <div style="flex:1"></div>
+          <button class="btn red">Confirm &amp; start</button>
+          <button class="btn ghost" style="border-color:var(--line);color:var(--coolblue)">Cancel</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">7</span><span class="step-title">Live Map Monitoring</span></div>
+      <p class="step-caption">Real-time transit tracking once evacuation is underway.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:49</span><span>●●○ Mesh</span></div>
+        <div class="screen-body">
+          <div class="row" style="justify-content:space-between;align-items:center"><span style="font-family:var(--display);font-weight:700;color:var(--coolblue);font-size:11.5px">Jun's evacuation</span><span class="pill">In transit</span></div>
+          <div class="mapbox"><div class="route"></div><div class="pin blue" style="left:52%;top:44%"></div><div class="flag" style="left:14%;top:18%">Home</div><div class="flag" style="left:70%;top:72%">Shelter</div></div>
+          <div class="progress"><i style="width:62%"></i></div>
+          <div class="grid2"><div class="card tinted"><h4>ETA</h4><p style="font-weight:700;color:var(--umber)">4 min</p></div><div class="card tinted"><h4>Last update</h4><p>32 sec ago</p></div></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">8</span><span class="step-title">Progress Timeline</span></div>
+      <p class="step-caption">A log of status changes, useful if a transit stalls unexpectedly.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:50</span><span>●●○ Mesh</span></div>
+        <div class="screen-body">
+          <div class="app-top" style="color:var(--coolblue)">← <span>Timeline</span></div>
+          <div class="list-item"><span class="pill blue">9:44</span><p style="font-size:10px">Evacuation started</p></div>
+          <div class="list-item"><span class="pill blue">9:46</span><p style="font-size:10px">Passed Rizal St. ramp</p></div>
+          <div class="list-item"><span class="pill red">9:49</span><p style="font-size:10px">Status: Paused — no movement for 3 min</p></div>
+          <div style="flex:1"></div>
+          <button class="btn red">Escalate to responder</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">9</span><span class="step-title">Escalate to Responder</span></div>
+      <p class="step-caption">Caregiver-initiated SOS when direct assistance isn't possible.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:50</span><span>●●○ Mesh</span></div>
+        <div class="screen-body" style="align-items:center;text-align:center">
+          <span class="pill red" style="align-self:center">Escalated</span>
+          <div class="sos-btn">SOS</div>
+          <p style="font-size:10px;color:#4B5A63">Nearest responder notified with Jun's last known location and profile.</p>
+          <div class="card tinted" style="width:100%;text-align:left"><h4>Sent</h4><p>Location, mobility profile, and pause reason</p></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">10</span><span class="step-title">Message Evacuee / Responder</span></div>
+      <p class="step-caption">Lightweight text channel for coordination during the response.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:51</span><span>●●○ Mesh</span></div>
+        <div class="screen-body">
+          <div class="app-top" style="color:var(--coolblue)">← <span>Responder #114</span></div>
+          <div class="card tinted"><p style="font-size:10px">Responder: On our way, ETA 4 min. Confirm Jun's exact position?</p></div>
+          <div class="card"><p style="font-size:10px">You: Near the covered walkway by the sari-sari store.</p></div>
+          <div style="flex:1"></div>
+          <div class="field">Type a message…</div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">11</span><span class="step-title">Notification History</span></div>
+      <p class="step-caption">Past alerts and status updates, reviewable after the event.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>10:20</span><span>●●● Wi-Fi</span></div>
+        <div class="screen-body">
+          <div class="app-top" style="color:var(--coolblue)">← <span>History</span></div>
+          <div class="list-item"><span class="pill blue">✓</span><p style="font-size:10px">Jun arrived safely at Brgy. Hall Shelter — 9:58 AM</p></div>
+          <div class="list-item"><span class="pill outline">i</span><p style="font-size:10px">Earthquake Int. VI alert — 9:44 AM</p></div>
+          <div class="list-item"><span class="pill outline">i</span><p style="font-size:10px">Lola Tere marked safe — 9:40 AM</p></div>
+          <div style="flex:1"></div>
+          <button class="btn outline">Notification settings</button>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ RESPONDER ============ -->
+<section class="persona" id="responder">
+  <div class="persona-head">
+    <div><h2>First responder flow</h2><p>From the dashboard queue to on-scene extraction and post-rescue documentation, using structured mobility telemetry instead of guesswork.</p></div>
+    <span class="persona-chip">12 screens</span>
+  </div>
+
+  <div class="group-label">Module 6 — First Responder Support System</div>
+  <div class="flow">
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">1</span><span class="step-title">Responder Login</span></div>
+      <p class="step-caption">Authenticated, authorized access via the web-based Responder Dashboard.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:38</span><span>●●● Cloud</span></div>
+        <div class="screen-body dark" style="align-items:center;text-align:center;justify-content:center">
+          <svg class="mark" viewBox="0 0 40 40" style="width:40px;height:40px;margin:0 auto"><polygon points="20,4 34,32 6,32" fill="#F3E1BE"/><polygon points="20,4 34,32 20,32" fill="#A6272C"/><polygon points="12,32 28,32 20,20" fill="#5E1D16"/></svg>
+          <div style="font-family:var(--display);font-weight:800;font-size:14px">Responder Dashboard</div>
+          <div class="field" style="width:100%;text-align:left;background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.16);color:#fff"><label style="color:var(--macadamia)">Unit ID</label>Barangay 12 · Unit 4</div>
+          <div class="field" style="width:100%;text-align:left;background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.16);color:#fff"><label style="color:var(--macadamia)">Password</label>••••••••</div>
+          <button class="btn" style="width:100%;background:var(--redwood)">Log in</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">2</span><span class="step-title">Requests Queue</span></div>
+      <p class="step-caption">Incoming SOS surfaced with the structured profile already attached.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:50</span><span>●●● Cloud</span></div>
+        <div class="screen-body dark">
+          <div class="app-top"><span style="color:#fff">Barangay 12 · Queue</span></div>
+          <div class="card" style="background:rgba(166,39,44,.16);border-color:rgba(166,39,44,.4)"><div class="row" style="justify-content:space-between;align-items:center"><h4 style="color:#fff">Lola Tere</h4><span class="pill red">O2 dependent</span></div><p style="color:var(--grayish)">Bedridden · rooftop · 2 stories</p></div>
+          <div class="card" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16)"><div class="row" style="justify-content:space-between;align-items:center"><h4 style="color:#fff">Jun Cruz</h4><span class="pill outline" style="color:var(--macadamia);border-color:var(--grayish)">Wheelchair</span></div><p style="color:var(--grayish)">En route · ground floor</p></div>
+          <div class="card" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16)"><div class="row" style="justify-content:space-between;align-items:center"><h4 style="color:#fff">A. Reyes</h4><span class="pill outline" style="color:var(--macadamia);border-color:var(--grayish)">Crutches</span></div><p style="color:var(--grayish)">Requested route only</p></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">3</span><span class="step-title">Filter &amp; Sort</span></div>
+      <p class="step-caption">Sort the queue by handling complexity, distance, or equipment needed.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:50</span><span>●●● Cloud</span></div>
+        <div class="screen-body">
+          <div class="app-top" style="color:var(--coolblue)">← <span>Sort &amp; filter</span></div>
+          <div class="card"><h4>Sort by</h4><div class="tag-row"><span class="pill blue">Severity</span><span class="pill outline">Distance</span><span class="pill outline">Time received</span></div></div>
+          <div class="card"><h4>Filter by need</h4><div class="tag-row"><span class="pill outline">Medical equipment</span><span class="pill outline">2+ person lift</span><span class="pill outline">Route only</span></div></div>
+          <div style="flex:1"></div>
+          <button class="btn">Apply</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">4</span><span class="step-title">Handling Profile</span></div>
+      <p class="step-caption">Lifting technique, weight limits, and location-within-structure, before departure.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:51</span><span>●●● Cloud</span></div>
+        <div class="screen-body">
+          <div class="row" style="align-items:center;gap:8px"><div class="avatar red">LT</div><div><h4 style="margin:0">Lola Tere, 78</h4><p>Bedridden</p></div></div>
+          <div class="card tinted"><h4>Handling protocol</h4><p>Two-person lift, transfer board required. Do not move unassisted.</p></div>
+          <div class="grid2"><div class="card"><h4>Equipment</h4><p>Oxygen tank (portable)</p></div><div class="card"><h4>Location</h4><p>Rooftop, 2nd floor</p></div></div>
+          <button class="btn red">Begin extraction</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">5</span><span class="step-title">Emergency Contact &amp; Medical</span></div>
+      <p class="step-caption">Secondary panel with contact info and physician notes, if needed on scene.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:51</span><span>●●● Cloud</span></div>
+        <div class="screen-body">
+          <div class="app-top" style="color:var(--coolblue)">← <span>Contact &amp; medical</span></div>
+          <div class="card"><h4>Emergency contact</h4><p>Maya R. (Sister) · 09XX XXX XXXX</p></div>
+          <div class="card"><h4>Physician</h4><p>Dr. Santos · maintenance meds packed for 7 days</p></div>
+          <div class="card tinted"><h4>Note from caregiver</h4><p>"She startles easily — please announce yourselves before entering."</p></div>
+          <div style="flex:1"></div>
+          <button class="btn outline">Call contact</button>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+
+  <div class="group-label">Field response &amp; coordination</div>
+  <div class="flow">
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">6</span><span class="step-title">Navigate to Evacuee</span></div>
+      <p class="step-caption">Includes location data relayed offline through the mesh network.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:53</span><span>Mesh relay</span></div>
+        <div class="screen-body">
+          <div class="row" style="justify-content:space-between;align-items:center"><span style="font-family:var(--display);font-weight:700;color:var(--coolblue);font-size:11.5px">En route · Lola Tere</span><span class="pill outline">Mesh-relayed</span></div>
+          <div class="mapbox"><div class="pin" style="left:24%;top:30%"></div><div class="pin blue" style="left:66%;top:64%"></div><div class="route" style="left:26%;top:28%;width:44%;height:40%"></div><div class="flag" style="left:12%;top:14%">Your unit</div><div class="flag" style="left:60%;top:56%">Rooftop pin</div></div>
+          <div class="card tinted"><h4>Distance</h4><p>380 m · ~4 min on foot</p></div>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">7</span><span class="step-title">Offline Sync Status</span></div>
+      <p class="step-caption">Shows which packets are queued vs. already synced to the backend.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:54</span><span style="color:var(--redwood)">No signal</span></div>
+        <div class="screen-body">
+          <div class="card tinted"><h4>Mesh queue</h4><p>2 packets pending upload — will sync once connectivity resumes.</p></div>
+          <div class="list-item"><span class="pill outline">✓</span><p style="font-size:10px">Lola Tere's SOS — received via 3-hop relay</p></div>
+          <div class="list-item"><span class="pill">…</span><p style="font-size:10px">Status update — queued for sync</p></div>
+          <div style="flex:1"></div>
+          <p class="footer-note">Duplicate packets are auto-discarded by ID + timestamp</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">8</span><span class="step-title">On-Scene Checklist</span></div>
+      <p class="step-caption">Confirms equipment and technique are ready before physical extraction begins.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:57</span><span>●●○ Mesh</span></div>
+        <div class="screen-body">
+          <div class="app-top" style="color:var(--coolblue)">← <span>Pre-extraction checklist</span></div>
+          <div class="list-item"><span class="pill blue">✓</span><p style="font-size:10px">Transfer board on hand</p></div>
+          <div class="list-item"><span class="pill blue">✓</span><p style="font-size:10px">Second team member confirmed</p></div>
+          <div class="list-item"><span class="pill outline">○</span><p style="font-size:10px">Oxygen tank secured for transport</p></div>
+          <div style="flex:1"></div>
+          <button class="btn red">Begin extraction</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">9</span><span class="step-title">Update Extraction Status</span></div>
+      <p class="step-caption">Status syncs back automatically to the caregiver and dashboard.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>9:58</span><span>●●● Cloud</span></div>
+        <div class="screen-body">
+          <h4 style="color:var(--coolblue)">Extraction status</h4>
+          <div class="tag-row"><span class="pill outline">Assigned</span><span class="pill">En route</span><span class="pill blue">On scene</span><span class="pill red">Extracted</span></div>
+          <div class="field"><label>Notes</label>Used transfer board, two-person lift. O2 tank secured.</div>
+          <div class="row" style="align-items:center;justify-content:space-between"><span style="font-size:10px;color:#4B5A63">Notify caregiver</span><div class="toggle"><i></i></div></div>
+          <div style="flex:1"></div>
+          <button class="btn">Mark as extracted</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">10</span><span class="step-title">Report a Missing Evacuee</span></div>
+      <p class="step-caption">In-app reporting only — the study scope excludes running search-and-rescue itself.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>10:04</span><span>●●● Cloud</span></div>
+        <div class="screen-body">
+          <div class="app-top" style="color:var(--coolblue)">← <span>Report missing</span></div>
+          <div class="field"><label>Evacuee name</label>Search registered profile…</div>
+          <div class="field"><label>Last seen location</label>Near Rizal St. covered walkway</div>
+          <div class="field"><label>Details</label>Last contact 9:49 AM, mobility profile shows manual wheelchair</div>
+          <div style="flex:1"></div>
+          <button class="btn red">Submit report</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">11</span><span class="step-title">Team Coordination</span></div>
+      <p class="step-caption">Structured data supplements — not replaces — live radio coordination.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>10:05</span><span>●●● Cloud</span></div>
+        <div class="screen-body dark">
+          <div class="app-top"><span style="color:#fff">Unit 4 · shared board</span></div>
+          <div class="card" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.16)"><h4 style="color:#fff">Unit 2</h4><p style="color:var(--grayish)">Handling Jun Cruz — ground floor, 2 min out</p></div>
+          <div class="card" style="background:rgba(166,39,44,.16);border-color:rgba(166,39,44,.4)"><h4 style="color:#fff">Unit 4 (you)</h4><p style="color:var(--macadamia)">Extracting Lola Tere — rooftop</p></div>
+          <div style="flex:1"></div>
+          <button class="btn ghost">Request backup</button>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="connector"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+    <div class="step">
+      <div class="step-label"><span class="step-num">12</span><span class="step-title">Post-Rescue Summary</span></div>
+      <p class="step-caption">Compiled record for documentation and after-action review.</p>
+      <div class="phone"><div class="screen">
+        <div class="statusbar"><span>10:20</span><span>●●● Cloud</span></div>
+        <div class="screen-body">
+          <div class="app-top" style="color:var(--coolblue)">← <span>Summary — Lola Tere</span></div>
+          <div class="card tinted"><h4>Outcome</h4><p>Extracted safely · delivered to Brgy. Hall Shelter</p></div>
+          <div class="grid2"><div class="card"><h4>Response time</h4><p>7 min</p></div><div class="card"><h4>Team</h4><p>Unit 4, 2 personnel</p></div></div>
+          <div style="flex:1"></div>
+          <button class="btn">Export report</button>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+</section>
+
+<footer><p>AlertAble · CAP-2530-IT · De La Salle University – Manila</p></footer>
+
+<script>
+  const buttons = document.querySelectorAll('.tabbar button');
+  const sections = document.querySelectorAll('section.persona');
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      sections.forEach(s=>s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+</script>
+
+</body>
+</html>
